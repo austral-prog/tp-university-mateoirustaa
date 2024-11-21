@@ -1,4 +1,6 @@
-package com.university.Evaluations;
+package com.university.Sorters;
+
+import com.university.Objects.Evaluation;
 
 import java.util.ArrayList;
 import java.util.Comparator;

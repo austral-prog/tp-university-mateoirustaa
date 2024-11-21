@@ -1,4 +1,4 @@
-package com.university;
+package com.university.CLI;
 
 public interface CLI {
     /**
@@ -10,5 +10,5 @@ public interface CLI {
      *                       Each CRUDInterface allows the CLI to perform Create, Read, Update, and Delete
      *                       operations on that specific entity type.
      */
-    void runCLI(CRUDRepository<?>[] crudInterfaces);
+    void runCLI(CRUDRepository<?, Integer>[] crudInterfaces);
 }

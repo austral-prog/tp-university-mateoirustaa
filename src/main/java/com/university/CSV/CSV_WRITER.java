@@ -18,21 +18,25 @@ public class CSV_WRITER {
     }
 
     public void write(String delimiter) {
-        try {
-            int rowsNum = data.size();
-            BufferedWriter bw = new BufferedWriter(new FileWriter(fileOut));
-            bw.write(String.join(delimiter, headers));
-            bw.newLine();
-            for (int i = 0; i < rowsNum; i++) {
+        if (data == null) return;
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileOut))) {
+            if (headers != null && headers.length > 0) {
+                bw.write(String.join(delimiter, headers));
+                bw.newLine();
+            }
+
+            for (int i = 0; i < data.size(); i++) {
                 String[] row = data.get(i);
+
+                if (row == null) continue;
+
                 bw.write(String.join(delimiter, row));
-                if (i < rowsNum - 1) {
+                if (i < data.size() - 1) {
                     bw.newLine();
                 }
             }
-            bw.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

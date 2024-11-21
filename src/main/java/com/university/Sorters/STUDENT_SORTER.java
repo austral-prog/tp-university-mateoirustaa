@@ -1,4 +1,6 @@
-package com.university.StudentFolder;
+package com.university.Sorters;
+
+import com.university.Objects.STUDENT;
 
 import java.util.Comparator;
 import java.util.List;

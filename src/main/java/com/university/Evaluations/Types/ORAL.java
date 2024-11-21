@@ -1,6 +1,6 @@
 package com.university.Evaluations.Types;
 
-import com.university.Evaluations.Evaluation;
+import com.university.Objects.Evaluation;
 
 public class ORAL extends Evaluation {
 

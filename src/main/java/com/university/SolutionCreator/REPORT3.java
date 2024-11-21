@@ -31,12 +31,7 @@ public class REPORT3 {
             }
         }
     }
-
     public List<String[]> getFileData() {
         return fileData;
-    }
-
-    public List<String[]> getEvaluationsData() {
-        return evaluationsData;
     }
 }

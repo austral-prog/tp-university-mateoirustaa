@@ -1,19 +1,19 @@
 package com.university.Creators;
 
 import com.university.CSV.CSV_READER;
-import com.university.Course.COURSE;
-import com.university.Evaluations.*;
+import com.university.Objects.COURSE;
 import com.university.Evaluations.Types.FINAL_PRACTICAL;
 import com.university.Evaluations.Types.ORAL;
 import com.university.Evaluations.Types.PRACTICAL;
 import com.university.Evaluations.Types.WRITTEN;
-import com.university.StudentFolder.STUDENT;
+import com.university.Objects.Evaluation;
+import com.university.Objects.STUDENT;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.university.mapping.materiaPorEstudiante;
-import static com.university.mapping.estudiantePorNombre;
+import static com.university.Maps.materiaPorEstudiante;
+import static com.university.Maps.estudiantePorNombre;
 
 public class CREATOR_2 implements CREATOR<Evaluation> {
 
