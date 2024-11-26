@@ -7,12 +7,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CSV_READER {
+public class CsvReader {
 
     private String file;
     private List<String[]> allRows = new ArrayList<>();
 
-    public CSV_READER(String file) {
+    public CsvReader(String file) {
         this.file = file;
     }
 

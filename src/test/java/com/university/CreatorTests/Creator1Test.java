@@ -1,6 +1,6 @@
 package com.university.CreatorTests;
 
-import com.university.Creators.CREATOR_1;
+import com.university.Creators.Creator1;
 import org.junit.jupiter.api.Test;
 import static com.university.Maps.materiaPorEstudiante;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -10,7 +10,7 @@ public class Creator1Test {
     @Test
     public void creatorTest() {
         String inputCsv = "src/main/resources/input.csv";
-        CREATOR_1 creator = new CREATOR_1(inputCsv);
+        Creator1 creator = new Creator1(inputCsv);
 
         creator.create();
 

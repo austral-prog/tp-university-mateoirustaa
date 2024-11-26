@@ -16,7 +16,7 @@ public class FinalExamsTest {
         double grade = 7.5;
 
         // Act
-        FINAL_PRACTICAL finalPractical = new FINAL_PRACTICAL(student, subject, evaluationName, exerciseName, grade);
+        Final finalPractical = new Final(student, subject, evaluationName, exerciseName, grade);
 
         // Assert
         assertNotNull(finalPractical, "The FINAL_PRACTICAL object should not be null.");

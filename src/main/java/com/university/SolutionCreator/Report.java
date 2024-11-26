@@ -1,19 +1,19 @@
 package com.university.SolutionCreator;
 
-import com.university.Objects.STUDENT;
-import com.university.Sorters.STUDENT_SORTER;
+import com.university.Objects.Student;
+import com.university.Sorters.StudentSorter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class REPORT {
+public class Report {
 
     private static List<String[]> fileData = new ArrayList<>();
 
-    public REPORT(List<STUDENT> STUDENTS) {
-        STUDENT_SORTER studentSorter = new STUDENT_SORTER(STUDENTS);
-        List<STUDENT> orderedStudents = studentSorter.getOrderedStudents();
-        for (STUDENT student : orderedStudents) {
+    public Report(List<Student> Students) {
+        StudentSorter studentSorter = new StudentSorter(Students);
+        List<Student> orderedStudents = studentSorter.getOrderedStudents();
+        for (Student student : orderedStudents) {
             String[] row = {student.getFullName(), String.valueOf(student.getSubjectsAmount())};
             fileData.add(row);
         }

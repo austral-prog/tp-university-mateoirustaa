@@ -1,6 +1,6 @@
 package com.university.CreatorTests;
 
-import com.university.Creators.CREATOR_3;
+import com.university.Creators.Creator3;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -9,7 +9,7 @@ class Creator3Test {
 
     @Test
     void testCreate() {
-        CREATOR_3 creator = new CREATOR_3("src/main/resources/input_3.csv");
+        Creator3 creator = new Creator3("src/main/resources/input_3.csv");
 
         creator.create();
 

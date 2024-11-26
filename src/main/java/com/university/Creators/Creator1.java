@@ -1,26 +1,27 @@
 package com.university.Creators;
 
-import com.university.CSV.CSV_READER;
-import com.university.Objects.STUDENT;
-import com.university.Objects.COURSE;
+import com.university.CSV.CsvReader;
+import com.university.Objects.Student;
+import com.university.Objects.Course;
 
 import java.util.*;
+import java.util.UUID;
 
 import static com.university.Maps.materiaPorEstudiante;
 import static com.university.Maps.estudiantePorNombre;
 
-public class CREATOR_1 implements CREATOR<STUDENT> {
+public class Creator1 implements Creator<Student> {
 
     private String nombreArchivo;
 
-    public CREATOR_1(String nombreArchivo) {
+    public Creator1(String nombreArchivo) {
         this.nombreArchivo = nombreArchivo;
     }
 
     @Override
     public void create() {
         try {
-            CSV_READER lectorCSV = new CSV_READER(nombreArchivo);
+            CsvReader lectorCSV = new CsvReader(nombreArchivo);
             lectorCSV.read(",");
             List<String[]> todosLosDatos = lectorCSV.getData();
 
@@ -34,17 +35,18 @@ public class CREATOR_1 implements CREATOR<STUDENT> {
                         continue;
                     }
 
-                    STUDENT estudiante = estudiantePorNombre.get(nombreEstudiante);
+                    Student estudiante = estudiantePorNombre.get(nombreEstudiante);
 
                     if (estudiante != null) {
                         estudiante.addSubject(materia);
-                        materiaPorEstudiante.get(estudiante).add(new COURSE(materia));
+                        materiaPorEstudiante.get(estudiante).add(new Course(materia));
                     } else {
-                        STUDENT nuevoEstudiante = new STUDENT(nombreEstudiante, emailEstudiante);
+                        String estudianteId = UUID.randomUUID().toString();
+                        Student nuevoEstudiante = new Student(nombreEstudiante, emailEstudiante, estudianteId);
                         nuevoEstudiante.addSubject(materia);
                         estudiantePorNombre.put(nombreEstudiante, nuevoEstudiante);
                         materiaPorEstudiante.put(nuevoEstudiante, new ArrayList<>());
-                        materiaPorEstudiante.get(nuevoEstudiante).add(new COURSE(materia));
+                        materiaPorEstudiante.get(nuevoEstudiante).add(new Course(materia));
                     }
                 }
             }
@@ -54,12 +56,11 @@ public class CREATOR_1 implements CREATOR<STUDENT> {
     }
 
     @Override
-    public List<STUDENT> getData() {
+    public List<Student> getData() {
         return new ArrayList<>(estudiantePorNombre.values());
     }
 
-    public CSV_READER getReader() {
-        CSV_READER reader = new CSV_READER("");
-        return reader;
+    public CsvReader getReader() {
+        return new CsvReader("");
     }
 }

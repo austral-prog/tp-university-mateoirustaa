@@ -6,24 +6,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class STUDENT implements Entity {
+public class Student implements Entity, Comparable<Student>{
+    public String FullName;
     private String fullName;
-    private String student_Email;
+    public String student_Email;
     private List<String> subjects_enlisted;
     private int id;
 
-    public STUDENT() {
-        this.fullName = "";
-        this.student_Email = "";
-        this.subjects_enlisted = new ArrayList<>();
-        this.id = 0;
-    }
-
-    public STUDENT(String fullName, String studentEmail) {
+    public Student(String fullName, String studentEmail, Integer id ) {
         this.fullName = fullName;
         this.student_Email = studentEmail;
         this.id = id;
         this.subjects_enlisted = new ArrayList<>();
+    }
+
+    public Student(String fullName, String email, String id) {
     }
 
     public String getFullName() {
@@ -39,6 +36,7 @@ public class STUDENT implements Entity {
     }
 
     public void addSubject(String subject) {
+        if (subjects_enlisted == null) subjects_enlisted = new ArrayList<>();
         if (!subjects_enlisted.contains(subject)) {
             subjects_enlisted.add(subject);
         }
@@ -53,7 +51,7 @@ public class STUDENT implements Entity {
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
-        STUDENT student = (STUDENT) obj;
+        Student student = (Student) obj;
         return Objects.equals(fullName, student.fullName);
     }
 
@@ -70,5 +68,11 @@ public class STUDENT implements Entity {
                 ", subjects_enlisted=" + subjects_enlisted +
                 ", id=" + id +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Student o) {
+        if (FullName == null) return -1;
+        return this.FullName.compareTo(o.FullName);
     }
 }

@@ -1,12 +1,15 @@
 package com.university.Objects;
 
-public abstract class Evaluation {
+import com.university.CLI.Entity;
 
+public abstract class Evaluation implements Entity {
+
+    private int id;
     private String student;
     private String subject;
     private String evaluationName;
     private String exerciseName;
-    private double grade;
+    public double grade;
 
     public Evaluation(String student, String subject, String evaluationName, String exerciseName, double grade) {
         this.student = student;
@@ -39,4 +42,24 @@ public abstract class Evaluation {
     public abstract String getType();
 
     public abstract String getEvaluationKind();
+
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Evaluation{id=" + id +
+                ", student='" + student + '\'' +
+                ", subject='" + subject + '\'' +
+                ", evaluationName='" + evaluationName + '\'' +
+                ", exerciseName='" + exerciseName + '\'' +
+                ", grade=" + grade + '}';
+    }
 }
