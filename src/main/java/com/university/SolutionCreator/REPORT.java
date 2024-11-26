@@ -1,14 +1,14 @@
 package com.university.SolutionCreator;
 
-import com.university.StudentFolder.STUDENT;
-import com.university.StudentFolder.STUDENT_SORTER;
+import com.university.Objects.STUDENT;
+import com.university.Sorters.STUDENT_SORTER;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class REPORT {
 
-    private List<String[]> fileData = new ArrayList<>();
+    private static List<String[]> fileData = new ArrayList<>();
 
     public REPORT(List<STUDENT> STUDENTS) {
         STUDENT_SORTER studentSorter = new STUDENT_SORTER(STUDENTS);
@@ -20,6 +20,23 @@ public class REPORT {
     }
 
     public List<String[]> getFileData() {
+
         return fileData;
+    }
+
+    public static List<String> getStudent() {
+        List<String> students = new ArrayList<>();
+        for (String[] row : fileData) {
+            students.add(row[0]);
+        }
+        return students;
+    }
+
+    public static List<Integer> getCourseCountOfStudents() {
+        List<Integer> courseCountOfStudent = new ArrayList<>();
+        for (String[] row : fileData) {
+            courseCountOfStudent.add(Integer.parseInt(row[1]));
+        }
+        return courseCountOfStudent;
     }
 }

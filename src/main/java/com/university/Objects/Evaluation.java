@@ -1,4 +1,4 @@
-package com.university.Evaluations;
+package com.university.Objects;
 
 public abstract class Evaluation {
 

@@ -1,7 +1,7 @@
 package com.university.SolutionCreator;
 
-import com.university.Evaluations.Evaluation;
-import com.university.Evaluations.EvaluationSorter;
+import com.university.Objects.Evaluation;
+import com.university.Sorters.EvaluationSorter;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -28,5 +28,8 @@ public class REPORT2 {
 
     public List<String[]> getFileData() {
         return fileData;
+    }
+
+    public void solution() {
     }
 }
