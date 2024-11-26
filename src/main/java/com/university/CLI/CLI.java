@@ -10,5 +10,5 @@ public interface CLI {
      *                       Each CRUDInterface allows the CLI to perform Create, Read, Update, and Delete
      *                       operations on that specific entity type.
      */
-    void runCLI(CRUDRepository<?, Integer>[] crudInterfaces);
+    void runCLI(CRUDRepository<?>[] crudInterfaces);
 }

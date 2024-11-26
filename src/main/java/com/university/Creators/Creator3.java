@@ -6,13 +6,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CREATOR_3 {
+public class Creator3 {
 
     private String filename;
     private List<String[]> data = new ArrayList<>();
     private List<String[]> evaluations = new ArrayList<>();
 
-    public CREATOR_3(String filename) {
+    public Creator3(String filename) {
         this.filename = filename;
     }
 

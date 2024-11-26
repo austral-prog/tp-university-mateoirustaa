@@ -3,12 +3,12 @@ package com.university.SolutionCreator;
 import java.util.ArrayList;
 import java.util.List;
 
-public class REPORT3 {
+public class Report3 {
 
     private List<String[]> fileData = new ArrayList<>();
     private List<String[]> evaluationsData = new ArrayList<>();
 
-    public REPORT3(List<String[]> gradedStudents, List<String[]> evaluations) {
+    public Report3(List<String[]> gradedStudents, List<String[]> evaluations) {
         for (String[] studentData : gradedStudents) {
             if (studentData.length >= 3) {
                 String studentName = studentData[0];

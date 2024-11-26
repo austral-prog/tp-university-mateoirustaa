@@ -9,7 +9,7 @@ public class OralExamTest {
     @Test
     public void testOralEvaluation() {
         // Arrange
-        ORAL oralExam = new ORAL("Jane Smith", "History", "Oral Exam", "Final Oral Exam", 8.0);
+        Oral oralExam = new Oral("Jane Smith", "History", "Oral Exam", "Final Oral Exam", 8.0);
 
         // Assert
         assertEquals("ORAL_EXAM", oralExam.getType());

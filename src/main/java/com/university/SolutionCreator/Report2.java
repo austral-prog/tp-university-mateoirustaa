@@ -8,11 +8,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class REPORT2 {
+public class Report2 {
 
     private List<String[]> fileData = new ArrayList<>();
 
-    public REPORT2(List<Evaluation> evaluations) {
+    public Report2(List<Evaluation> evaluations) {
         EvaluationSorter evaluationSorter = new EvaluationSorter(evaluations);
         List<Evaluation> orderedEvaluations = evaluationSorter.getOrderedEvaluations();
 

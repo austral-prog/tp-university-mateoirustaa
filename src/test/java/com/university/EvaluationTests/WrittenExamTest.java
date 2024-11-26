@@ -9,7 +9,7 @@ public class WrittenExamTest {
     @Test
     public void testWrittenEvaluation() {
         // Arrange
-        WRITTEN writtenExam = new WRITTEN("Jane Doe", "Mathematics", "Midterm Exam", "Algebra Test", 8.0);
+        Written writtenExam = new Written("Jane Doe", "Mathematics", "Midterm Exam", "Algebra Test", 8.0);
 
         // Assert
         assertEquals("WRITTEN_EXAM", writtenExam.getType());

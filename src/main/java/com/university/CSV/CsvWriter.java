@@ -5,13 +5,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
-public class CSV_WRITER {
+public class CsvWriter {
 
     String[] headers;
     String fileOut;
     List<String[]> data;
 
-    public CSV_WRITER(String[] headers, String fileOut, List<String[]> data) {
+    public CsvWriter(String[] headers, String fileOut, List<String[]> data) {
         this.headers = headers;
         this.fileOut = fileOut;
         this.data = data;

@@ -97,7 +97,7 @@ class CRUDRepositoryTest {
         }
     }
 
-    private Entity createTestEntity(CRUDRepository<? extends Entity,?> crudRepository) {
+    private Entity createTestEntity(CRUDRepository<? extends Entity> crudRepository) {
         try {
             // Get the entity class from the CRUD repository
             Class<? extends Entity> entityClass = crudRepository.getEntityClass();
@@ -119,7 +119,7 @@ class CRUDRepositoryTest {
         }
     }
 
-    private Entity updateTestEntity(CRUDRepository<? extends Entity,?> crudRepository) {
+    private Entity updateTestEntity(CRUDRepository<? extends Entity> crudRepository) {
         try {
             // Get the entity class from the CRUD repository
             Class<? extends Entity> entityClass = crudRepository.getEntityClass();

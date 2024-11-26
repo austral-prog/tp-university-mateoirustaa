@@ -1,31 +1,32 @@
 package com.university.Creators;
 
-import com.university.CSV.CSV_READER;
-import com.university.Objects.COURSE;
-import com.university.Evaluations.Types.FINAL_PRACTICAL;
-import com.university.Evaluations.Types.ORAL;
-import com.university.Evaluations.Types.PRACTICAL;
-import com.university.Evaluations.Types.WRITTEN;
+import com.university.CSV.CsvReader;
+import com.university.Objects.Course;
+import com.university.Evaluations.Types.Final;
+import com.university.Evaluations.Types.Oral;
+import com.university.Evaluations.Types.Practical;
+import com.university.Evaluations.Types.Written;
 import com.university.Objects.Evaluation;
-import com.university.Objects.STUDENT;
+import com.university.Objects.Student;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static com.university.Maps.materiaPorEstudiante;
 import static com.university.Maps.estudiantePorNombre;
 
-public class CREATOR_2 implements CREATOR<Evaluation> {
+public class Creator2 implements Creator<Evaluation> {
 
     private String archivo;
 
-    public CREATOR_2(String archivo) {
+    public Creator2(String archivo) {
         this.archivo = archivo;
     }
 
     @Override
     public void create() {
-        CSV_READER lectorCsv = new CSV_READER(archivo);
+        CsvReader lectorCsv = new CsvReader(archivo);
         lectorCsv.read(",");
         List<String[]> todosLosDatos = lectorCsv.getData();
 
@@ -45,16 +46,17 @@ public class CREATOR_2 implements CREATOR<Evaluation> {
                     continue;
                 }
 
-                STUDENT estudiante = estudiantePorNombre.get(nombreEstudiante);
+                Student estudiante = estudiantePorNombre.get(nombreEstudiante);
                 if (estudiante == null) {
-                    estudiante = new STUDENT(nombreEstudiante, "email");
+                    String estudianteId = UUID.randomUUID().toString();
+                    estudiante = new Student(nombreEstudiante, "email", estudianteId);
                     estudiantePorNombre.put(nombreEstudiante, estudiante);
                 }
 
-                List<COURSE> materias = materiaPorEstudiante.computeIfAbsent(estudiante, k -> new ArrayList<>());
+                List<Course> materias = materiaPorEstudiante.computeIfAbsent(estudiante, k -> new ArrayList<>());
 
-                COURSE materiaExistente = null;
-                for (COURSE c : materias) {
+                Course materiaExistente = null;
+                for (Course c : materias) {
                     if (c.getSubject().equals(nombreMateria)) {
                         materiaExistente = c;
                         break;
@@ -62,16 +64,16 @@ public class CREATOR_2 implements CREATOR<Evaluation> {
                 }
 
                 if (materiaExistente == null) {
-                    materiaExistente = new COURSE(nombreMateria);
+                    materiaExistente = new Course(nombreMateria);
                     materias.add(materiaExistente);
                 }
 
                 if (!contieneEvaluacion(materiaExistente.getEvaluations(), nombreEvaluacion)) {
                     switch (tipoEvaluacion) {
-                        case "WRITTEN_EXAM" -> materiaExistente.getEvaluations().add(new WRITTEN(nombreEstudiante, nombreMateria, nombreEvaluacion, nombreEjercicio, calificacion));
-                        case "FINAL_PRACTICAL_WORK" -> materiaExistente.getEvaluations().add(new FINAL_PRACTICAL(nombreEstudiante, nombreMateria, nombreEvaluacion, nombreEjercicio, calificacion));
-                        case "PRACTICAL_WORK" -> materiaExistente.getEvaluations().add(new PRACTICAL(nombreEstudiante, nombreMateria, nombreEvaluacion, nombreEjercicio, calificacion));
-                        case "ORAL_EXAM" -> materiaExistente.getEvaluations().add(new ORAL(nombreEstudiante, nombreMateria, nombreEvaluacion, nombreEjercicio, calificacion));
+                        case "WRITTEN_EXAM" -> materiaExistente.getEvaluations().add(new Written(nombreEstudiante, nombreMateria, nombreEvaluacion, nombreEjercicio, calificacion));
+                        case "FINAL_PRACTICAL_WORK" -> materiaExistente.getEvaluations().add(new Final(nombreEstudiante, nombreMateria, nombreEvaluacion, nombreEjercicio, calificacion));
+                        case "PRACTICAL_WORK" -> materiaExistente.getEvaluations().add(new Practical(nombreEstudiante, nombreMateria, nombreEvaluacion, nombreEjercicio, calificacion));
+                        case "ORAL_EXAM" -> materiaExistente.getEvaluations().add(new Oral(nombreEstudiante, nombreMateria, nombreEvaluacion, nombreEjercicio, calificacion));
                     }
                 }
             }
@@ -81,8 +83,8 @@ public class CREATOR_2 implements CREATOR<Evaluation> {
     @Override
     public List<Evaluation> getData() {
         List<Evaluation> evaluacionesPorMateria = new ArrayList<>();
-        for (List<COURSE> materias : materiaPorEstudiante.values()) {
-            for (COURSE materia : materias) {
+        for (List<Course> materias : materiaPorEstudiante.values()) {
+            for (Course materia : materias) {
                 evaluacionesPorMateria.addAll(materia.getEvaluations());
             }
         }
