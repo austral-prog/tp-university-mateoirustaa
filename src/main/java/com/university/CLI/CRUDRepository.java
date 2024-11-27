@@ -1,5 +1,7 @@
 package com.university.CLI;
 
+import com.university.Objects.Entity;
+
 public interface CRUDRepository<T extends Entity> {
     /**
      * Creates a new entity in the repository.

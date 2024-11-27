@@ -1,4 +1,4 @@
-package com.university.CLI;
+package com.university.Objects;
 
 public interface Entity {
     int getId();

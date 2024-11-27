@@ -4,8 +4,8 @@ import com.university.Objects.Evaluation;
 
 public class Oral extends Evaluation {
 
-    public Oral(String student, String subject, String evaluationName, String exerciseName, double grade) {
-        super(student, subject, evaluationName, exerciseName, grade);
+    public Oral(String student, String subject, String evaluationName, String exerciseName) {
+        super(student, subject, evaluationName, exerciseName);
     }
 
     @Override

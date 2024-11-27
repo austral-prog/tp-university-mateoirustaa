@@ -14,9 +14,11 @@ public class CourseRepo implements CRUDRepository<Course> {
         if (course == null) {
             throw new NullEntityException("The course cannot be null.");
         }
-        int id = courses.size() + 1;
-        course.setId(id);
-        courses.put(id, course);
+        // Aquí se verifica si el ID proporcionado ya está en uso
+        if (courses.containsKey(course.getId())) {
+            throw new IllegalArgumentException("A course with this ID already exists.");
+        }
+        courses.put(course.getId(), course);  // Usamos el ID proporcionado
     }
 
     @Override

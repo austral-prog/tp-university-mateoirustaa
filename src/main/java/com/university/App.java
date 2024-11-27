@@ -86,20 +86,6 @@ public class App {
         } catch (IOException e) {
             System.err.println("Error al procesar aprobaciones: " + e.getMessage());
             e.printStackTrace();
-            return;
-        }
-
-        try {
-            CRUDRepository<Student> studentRepo = new StudentRepo();
-            CRUDRepository<Course> courseRepo = new CourseRepo();
-            CRUDRepository<Evaluation> evaluationRepo = new EvaluationRepo();
-
-            UniversityCLI universityCLI = new UniversityCLI(Report.getStudent(), Report.getCourseCountOfStudents());
-            CRUDRepository<?>[] crudInterfaces = new CRUDRepository<?>[] { studentRepo, courseRepo, evaluationRepo };
-            universityCLI.runCLI(crudInterfaces);
-        } catch (Exception e) {
-            System.err.println("Error al ejecutar el CLI: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 }

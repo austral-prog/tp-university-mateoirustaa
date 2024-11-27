@@ -1,7 +1,7 @@
 package com.university.TestCLI;
 
 import com.university.CLI.CRUDRepository;
-import com.university.CLI.Entity;
+import com.university.Objects.Entity;
 import com.university.CLI.Exceptions.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

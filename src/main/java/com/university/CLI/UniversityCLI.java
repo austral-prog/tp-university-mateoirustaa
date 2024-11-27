@@ -1,162 +1,314 @@
 package com.university.CLI;
 
-import com.university.Objects.Course;
+import com.university.Evaluations.Types.Final;
+import com.university.Evaluations.Types.Oral;
+import com.university.Evaluations.Types.Practical;
+import com.university.Evaluations.Types.Written;
+import com.university.Objects.Entity;
+import com.university.CLI.Exceptions.NullEntityException;
+import com.university.CLI.Exceptions.EntityNotFoundException;
+import com.university.CLI.Exceptions.InvalidEntityException;
+
 import com.university.Objects.Evaluation;
 import com.university.Objects.Student;
+import com.university.Objects.Course;
 
-import java.util.List;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
+// Clase principal que implementa la interfaz CLI
 public class UniversityCLI implements CLI {
 
+    // Declaración del objeto Scanner para capturar entradas del usuario
     private final Scanner scanner = new Scanner(System.in);
 
-    public UniversityCLI(List<String> student, List<Integer> courseCountOfStudents) {
-    }
-
+    // Metodo principal que ejecuta el CLI para interactuar con las interfaces CRUD
     @Override
     public void runCLI(CRUDRepository<?>[] crudInterfaces) {
-        CRUDRepository<Student> StudentRepo = (CRUDRepository<Student>) crudInterfaces[0];
-        CRUDRepository<Course> CourseRepo = (CRUDRepository<Course>) crudInterfaces[1];
-        CRUDRepository<Evaluation> EvaluationRepo = (CRUDRepository<Evaluation>) crudInterfaces[2];
+        System.out.println(" --- University Management App ---");
+        boolean running = true;
 
-        while (true) {
-            System.out.println("Managing repositories...");
-            System.out.println("[1] Manage Students");
-            System.out.println("[2] Manage Courses");
-            System.out.println("[3] Manage Evaluations");
-            System.out.println("[4] Exit");
-            int choice = scanner.nextInt();
-            scanner.nextLine();
+        // Bucle principal que sigue ejecutándose hasta que el usuario decida salir
+        while (running) {
+            System.out.println("\nSelect an entity to manage:");
+            // Muestra las opciones de entidades disponibles para manejar
+            for (int i = 0; i < crudInterfaces.length; i++) {
+                System.out.println((i + 1) + ". " + crudInterfaces[i].getIdentifier());
+            }
+            // Opción para salir del CLI
+            System.out.println((crudInterfaces.length + 1) + ". Exit");
 
-            switch (choice) {
-                case 1 -> handleCRUDOperations(StudentRepo);
-                case 2 -> handleCRUDOperations(CourseRepo);
-                case 3 -> handleCRUDOperations(EvaluationRepo);
-                case 4 -> System.exit(0);
-                default -> System.out.println("Invalid option. Try again.");
+            // Captura la opción elegida por el usuario para seleccionar una entidad
+            int entityChoice = -1;
+            while (entityChoice < 1 || entityChoice > crudInterfaces.length + 1) {
+                System.out.print("Choose a number between 1 and " + (crudInterfaces.length + 1) + ": ");
+                try {
+                    entityChoice = scanner.nextInt();
+                    if (entityChoice < 1 || entityChoice > crudInterfaces.length + 1) {
+                        System.out.println("Invalid choice. Please try again.");
+                    }
+                } catch (InputMismatchException e) {
+                    // Manejo de errores en caso de que la entrada no sea un número válido
+                    System.out.println("Error: Input is not a valid number. Please enter a number between 1 and " + (crudInterfaces.length + 1) + ".");
+                    scanner.nextLine(); // Limpiar el buffer
+                }
+            }
+
+            // Lógica para ejecutar operaciones CRUD según la elección del usuario
+            switch (entityChoice) {
+                case 1:
+                case 2:
+                case 3: {
+                    CRUDRepository<?> selectedRepository = crudInterfaces[entityChoice - 1];
+                    handleCrudOperations(selectedRepository);
+                    break;
+                }
+                case 4: {
+                    running = false; // Sale del CLI
+                    System.out.println("Exiting... ");
+                    break;
+                }
             }
         }
     }
 
-    private <T extends Entity> void handleCRUDOperations(CRUDRepository<T> repository) {
-        System.out.println("Choose an operation: [1] Create, [2] Read, [3] Update, [4] Delete");
-        int operation = scanner.nextInt();
-        scanner.nextLine();
+    // Metodo para validar y obtener una entrada numérica dentro de un rango
+    private int getValidIntegerInput(int min, int max) {
+        int input = -1;
+        boolean validInput = false;
 
-        switch (operation) {
-            case 1 -> createEntity(repository);
-            case 2 -> readEntity(repository);
-            case 3 -> updateEntity(repository);
-            case 4 -> deleteEntity(repository);
-            default -> System.out.println("Invalid operation.");
-        }
-    }
-
-    private <T extends Entity> void createEntity(CRUDRepository<T> repository) {
-        if (repository.getIdentifier().equals("Student")) {
-            System.out.println("Creating a new student...");
-            System.out.print("Enter full name: ");
-            String fullName = scanner.nextLine();
-            System.out.print("Enter student email: ");
-            String email = scanner.nextLine();
-            System.out.print("Enter an id:");
-            String id = String.valueOf(scanner.nextInt());
-            Student student = new Student(fullName, email, id);
-            repository.create((T) student);
-            System.out.println("Student created successfully.");
-        } else if (repository.getIdentifier().equals("Course")) {
-            System.out.println("Creating a new course...");
-            System.out.print("Enter course name: ");
-            String courseName = scanner.nextLine();
-            Course course = new Course(courseName);
-            repository.create((T) course);
-            System.out.println("Course created successfully.");
-        } else if (repository.getIdentifier().equals("Evaluation")) {
-            System.out.println("Creating a new evaluation...");
-            System.out.print("Enter student name: ");
-            String studentName = scanner.nextLine();
-            System.out.print("Enter subject: ");
-            String subject = scanner.nextLine();
-            System.out.print("Enter evaluation name: ");
-            String evaluationName = scanner.nextLine();
-            System.out.print("Enter exercise name: ");
-            String exerciseName = scanner.nextLine();
-            System.out.print("Enter grade: ");
-            double grade = scanner.nextDouble();
-            scanner.nextLine();
-            Evaluation evaluation = new Evaluation(studentName, subject, evaluationName, exerciseName, grade) {
-                @Override
-                public String getType() {
-                    return "Exam";
-                }
-
-                @Override
-                public String getEvaluationKind() {
-                    return "Final";
-                }
-            };
-            repository.create((T) evaluation);
-            System.out.println("Evaluation created successfully.");
-        } else {
-            System.out.println("Entity type not supported for creation.");
-        }
-    }
-
-    private <T extends Entity> void readEntity(CRUDRepository<T> repository) {
-        System.out.println("Enter the ID of the entity to read:");
-        int id = scanner.nextInt();
-        scanner.nextLine();
-
-        T entity = repository.read(id);
-        if (entity != null) {
-            System.out.println(entity.toString());
-        } else {
-            System.out.println("Entity not found.");
-        }
-    }
-
-    private <T extends Entity> void updateEntity(CRUDRepository<T> repository) {
-        System.out.println("Enter the ID of the entity to update:");
-        int id = scanner.nextInt();
-        scanner.nextLine();
-
-        T entity = repository.read(id);
-        if (entity != null) {
-            if (entity instanceof Student) {
-                Student student = (Student) entity;
-                System.out.print("Enter new full name: ");
-                student.FullName = scanner.nextLine();
-                System.out.print("Enter new email: ");
-                student.student_Email = scanner.nextLine();
-            } else if (entity instanceof Course) {
-                Course course = (Course) entity;
-                System.out.print("Enter new course name: ");
-                course.nombre = scanner.nextLine();
-            } else if (entity instanceof Evaluation) {
-                Evaluation evaluation = (Evaluation) entity;
-                System.out.print("Enter new grade: ");
-                evaluation.grade = scanner.nextDouble();
+        // Bucle para asegurar que el input esté dentro del rango válido
+        while (!validInput) {
+            try {
+                System.out.print("Enter a number between " + min + " and " + max + ": ");
+                input = scanner.nextInt();
                 scanner.nextLine();
+
+                if (input >= min && input <= max) {
+                    validInput = true;
+                } else {
+                    System.out.println("Error: Number must be between " + min + " and " + max + ".");
+                }
+            } catch (InputMismatchException e) {
+                scanner.nextLine();
+                // Captura y manejo de error si la entrada no es un número válido
+                System.out.println("Error: Input is not a valid number. Please enter a number between " + min + " and " + max + ".");
             }
-            repository.update(id, entity);
-            System.out.println("Entity updated successfully.");
-        } else {
-            System.out.println("Entity not found.");
+        }
+        return input;
+    }
+
+    // Metodo que maneja las operaciones CRUD (Crear, Leer, Actualizar, Eliminar) para una entidad
+    private <T extends Entity> void handleCrudOperations(CRUDRepository<T> repository) {
+        boolean manageEntity = true;
+        while (manageEntity) {
+            // Muestra las opciones para la operación CRUD
+            System.out.println("\nManaging: " + repository.getIdentifier());
+            System.out.println("1. Create\n2. Read\n3. Update\n4. Delete\n5. Go back");
+
+            try {
+                int operation = getValidIntegerInput(1, 5);
+
+                switch (operation) {
+                    case 1:
+                        createEntity(repository);
+                        break;
+                    case 2:
+                        readEntity(repository);
+                        break;
+                    case 3:
+                        updateEntity(repository);
+                        break;
+                    case 4:
+                        deleteEntity(repository);
+                        break;
+                    case 5:
+                        manageEntity = false;
+                        break;
+                    default:
+                        System.out.println("Invalid option. Try again.");
+                        break;
+                }
+            } catch (InvalidEntityException e) {
+                System.out.println("Error: " + e.getMessage());
+            } catch (Exception e) {
+                System.out.println("Unexpected error: " + e.getMessage());
+            }
         }
     }
 
+    // Metodo para crear una nueva entidad en el repositorio
+    private <T extends Entity> void createEntity(CRUDRepository<T> repository) {
+        System.out.println("\nCreating new " + repository.getIdentifier() + "...");
+
+        try {
+            // Captura el ID de la nueva entidad
+            System.out.print("Enter ID for the " + repository.getIdentifier() + ": ");
+            int id = getValidIntegerInput(1, Integer.MAX_VALUE);
+
+            // Obtiene los datos de la entidad desde el usuario
+            T entity = getEntityDataFromUser(repository.getEntityClass());
+            entity.setId(id); // Asigna el ID a la entidad
+            repository.create(entity); // Crea la entidad en el repositorio
+            System.out.println(repository.getIdentifier() + " with ID " + id + " created successfully.");
+
+        } catch (NullEntityException | InvalidEntityException e) {
+            // Captura excepciones específicas para entidades nulas o inválidas
+            System.out.println("Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Unexpected error: " + e.getMessage());
+        }
+    }
+
+    // Metodo para leer los detalles de una entidad desde el repositorio
+    private <T extends Entity> void readEntity(CRUDRepository<T> repository) {
+        System.out.print("Enter the ID of the " + repository.getIdentifier() + " to read: ");
+
+        try {
+            // Captura el ID de la entidad a leer
+            int id = getValidIntegerInput(1, Integer.MAX_VALUE);
+            T entity = repository.read(id); // Lee la entidad desde el repositorio
+            System.out.println("Details of " + repository.getIdentifier() + ": " + entity);
+
+        } catch (EntityNotFoundException | InvalidEntityException e) {
+            // Captura excepciones cuando no se encuentra la entidad o la entidad es inválida
+            System.out.println("Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Unexpected error: " + e.getMessage());
+        }
+    }
+
+    // Metodo para actualizar una entidad en el repositorio
+    private <T extends Entity> void updateEntity(CRUDRepository<T> repository) {
+        System.out.print("Enter the ID of the " + repository.getIdentifier() + " to update: ");
+
+        try {
+            // Captura el ID de la entidad a actualizar
+            int id = getValidIntegerInput(1, Integer.MAX_VALUE);
+            T entity = repository.read(id); // Lee la entidad actual del repositorio
+
+            System.out.println("Enter new data for the " + repository.getIdentifier() + ":");
+            T updatedEntity = getEntityDataFromUser(repository.getEntityClass()); // Obtiene los nuevos datos de la entidad
+            updatedEntity.setId(id); // Asigna el ID actualizado a la entidad
+            repository.update(id, updatedEntity); // Actualiza la entidad en el repositorio
+
+            System.out.println(repository.getIdentifier() + " with ID " + id + " updated successfully.");
+
+        } catch (EntityNotFoundException | InvalidEntityException e) {
+            System.out.println("Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Unexpected error: " + e.getMessage());
+        }
+    }
+
+    // Metodo para eliminar una entidad del repositorio
     private <T extends Entity> void deleteEntity(CRUDRepository<T> repository) {
-        System.out.println("Enter the ID of the entity to delete:");
-        int id = scanner.nextInt();
-        scanner.nextLine();
+        System.out.print("Enter the ID of the " + repository.getIdentifier() + " to delete: ");
 
-        T entity = repository.read(id);
-        if (entity != null) {
-            repository.delete(id);
-            System.out.println("Entity deleted successfully.");
-        } else {
-            System.out.println("Entity not found.");
+        try {
+            // Captura el ID de la entidad a eliminar
+            int id = getValidIntegerInput(1, Integer.MAX_VALUE);
+            repository.delete(id); // Elimina la entidad del repositorio
+            System.out.println(repository.getIdentifier() + " with ID " + id + " deleted successfully.");
+
+        } catch (EntityNotFoundException | InvalidEntityException e) {
+            // Captura excepciones cuando no se encuentra la entidad o la entidad es inválida
+            System.out.println("Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Unexpected error: " + e.getMessage());
         }
     }
+
+    // Metodo para obtener los datos de una entidad del usuario, dependiendo de la clase de entidad
+    private <T extends Entity> T getEntityDataFromUser(Class<T> entityClass) {
+        while (true) {
+            try {
+                if (entityClass == Student.class) {
+                    // Recoge los datos específicos de un estudiante
+                    System.out.print("Enter student name: ");
+                    String name = scanner.nextLine().trim();
+                    if (name.isEmpty()) {
+                        throw new InvalidEntityException("Student name cannot be empty.");
+                    }
+
+                    System.out.print("Enter student email: ");
+                    String email = scanner.nextLine().trim();
+                    if (email.isEmpty()) {
+                        throw new InvalidEntityException("Student email cannot be empty.");
+                    }
+
+                    return entityClass.cast(new Student(name, email)); // Crea un estudiante
+
+                } else if (entityClass == Course.class) {
+                    // Recoge los datos específicos de un curso
+                    System.out.print("Enter course subject: ");
+                    String subject = scanner.nextLine().trim();
+                    if (subject.isEmpty()) {
+                        throw new InvalidEntityException("Course subject cannot be empty.");
+                    }
+
+                    Course course = new Course(subject); // Crea un curso
+                    boolean addMore = true;
+                    while (addMore) {
+                        System.out.print("Enter classroom (or type 'done' to finish): ");
+                        String classroom = scanner.nextLine().trim();
+                        if ("done".equalsIgnoreCase(classroom)) {
+                            addMore = false;
+                        } else if (!classroom.isEmpty()) {
+                            course.addEvaluation(classroom); // Agrega evaluaciones al curso
+                        }
+                    }
+                    return entityClass.cast(course);
+
+                } else if (entityClass == Evaluation.class) {
+                    // Recoge los datos específicos de una evaluación
+                    System.out.print("Enter student name for evaluation: ");
+                    String studentName = scanner.nextLine().trim();
+                    if (studentName.isEmpty()) {
+                        throw new InvalidEntityException("Student name cannot be empty.");
+                    }
+
+                    System.out.print("Enter evaluation subject: ");
+                    String subject = scanner.nextLine().trim();
+                    if (subject.isEmpty()) {
+                        throw new InvalidEntityException("Subject cannot be empty.");
+                    }
+
+                    System.out.print("Enter evaluation name: ");
+                    String evalName = scanner.nextLine().trim();
+                    if (evalName.isEmpty()) {
+                        throw new InvalidEntityException("Evaluation name cannot be empty.");
+                    }
+
+                    System.out.println("Choose evaluation type:\n1. WrittenExam\n2. OralExam\n3. PracticalWork\n4. FinalPracticalWork");
+                    int evalTypeChoice = getValidIntegerInput(1, 4);
+
+                    // Dependiendo de la opción seleccionada, crea el tipo correspondiente de evaluación
+                    switch (evalTypeChoice) {
+                        case 1 -> {
+                            return entityClass.cast(new Written(studentName, subject, "WrittenExam", evalName));
+                        }
+                        case 2 -> {
+                            return entityClass.cast(new Oral(studentName, subject, "OralExam", evalName));
+                        }
+                        case 3 -> {
+                            return entityClass.cast(new Practical(studentName, subject, "PracticalWork", evalName));
+                        }
+                        case 4 -> {
+                            return entityClass.cast(new Final(studentName, subject, "FinalPracticalWork", evalName));
+                        }
+                        default -> throw new InvalidEntityException("Invalid evaluation type.");
+                    }
+                }
+
+                // Si no se encuentra el tipo de entidad, lanza una excepción
+                throw new InvalidEntityException("Unsupported entity type.");
+            } catch (InvalidEntityException e) {
+                // En caso de error, muestra un mensaje y vuelve a solicitar la entrada
+                System.out.println("Error: " + e.getMessage());
+                System.out.println("Please try again.");
+            }
+        }
+    }
+
 }

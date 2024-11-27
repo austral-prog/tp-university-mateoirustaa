@@ -5,14 +5,13 @@ import com.university.Objects.Student;
 import com.university.Objects.Course;
 
 import java.util.*;
-import java.util.UUID;
-
 import static com.university.Maps.materiaPorEstudiante;
 import static com.university.Maps.estudiantePorNombre;
 
 public class Creator1 implements Creator<Student> {
 
     private String nombreArchivo;
+    private int idCounter = 1;  // Usamos un contador para asignar ID a los estudiantes
 
     public Creator1(String nombreArchivo) {
         this.nombreArchivo = nombreArchivo;
@@ -38,11 +37,13 @@ public class Creator1 implements Creator<Student> {
                     Student estudiante = estudiantePorNombre.get(nombreEstudiante);
 
                     if (estudiante != null) {
+                        // Si el estudiante ya existe, agregamos la materia
                         estudiante.addSubject(materia);
                         materiaPorEstudiante.get(estudiante).add(new Course(materia));
                     } else {
-                        String estudianteId = UUID.randomUUID().toString();
-                        Student nuevoEstudiante = new Student(nombreEstudiante, emailEstudiante, estudianteId);
+                        // Si el estudiante no existe, creamos un nuevo estudiante con ID int
+                        int estudianteId = idCounter++;  // Incrementamos el ID para el siguiente estudiante
+                        Student nuevoEstudiante = new Student(nombreEstudiante, emailEstudiante);
                         nuevoEstudiante.addSubject(materia);
                         estudiantePorNombre.put(nombreEstudiante, nuevoEstudiante);
                         materiaPorEstudiante.put(nuevoEstudiante, new ArrayList<>());

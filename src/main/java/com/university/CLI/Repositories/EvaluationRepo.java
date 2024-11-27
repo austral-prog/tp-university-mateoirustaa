@@ -14,14 +14,24 @@ public class EvaluationRepo implements CRUDRepository<Evaluation> {
         if (evaluation == null) {
             throw new NullEntityException("The evaluation cannot be null.");
         }
-        int id = evaluations.size() + 1; // Auto-generate ID
-        evaluation.setId(id);
-        evaluations.put(id, evaluation);
+
+        // Si el ID es 0, genera un ID automáticamente
+        if (evaluation.getId() == 0) {
+            int id = evaluations.size() + 1; // Incremental
+            evaluation.setId(id);
+        }
+
+        // Asegúrate de que la evaluación se esté añadiendo correctamente al mapa
+        evaluations.put(evaluation.getId(), evaluation);
     }
 
     @Override
     public Evaluation read(int id) {
-        return evaluations.get(id);
+        Evaluation entity = evaluations.get(id);
+        if (entity == null) {
+            System.out.println("Entity with ID " + id + " not found.");
+        }
+        return entity;
     }
 
     @Override

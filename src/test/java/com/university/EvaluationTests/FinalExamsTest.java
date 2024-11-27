@@ -13,10 +13,9 @@ public class FinalExamsTest {
         String subject = "Mathematics";
         String evaluationName = "Final Exam";
         String exerciseName = "Final Practical Work";
-        double grade = 7.5;
 
         // Act
-        Final finalPractical = new Final(student, subject, evaluationName, exerciseName, grade);
+        Final finalPractical = new Final(student, subject, evaluationName, exerciseName);
 
         // Assert
         assertNotNull(finalPractical, "The FINAL_PRACTICAL object should not be null.");

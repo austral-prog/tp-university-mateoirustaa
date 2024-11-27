@@ -1,26 +1,20 @@
 package com.university.Objects;
 
-import com.university.CLI.Entity;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Student implements Entity, Comparable<Student>{
-    public String FullName;
+public class Student implements Entity, Comparable<Student> {
     private String fullName;
-    public String student_Email;
-    private List<String> subjects_enlisted;
+    private String studentEmail;
+    private List<String> subjectsEnlisted;
     private int id;
 
-    public Student(String fullName, String studentEmail, Integer id ) {
+    public Student(String fullName, String studentEmail) {
         this.fullName = fullName;
-        this.student_Email = studentEmail;
+        this.studentEmail = studentEmail;
         this.id = id;
-        this.subjects_enlisted = new ArrayList<>();
-    }
-
-    public Student(String fullName, String email, String id) {
+        this.subjectsEnlisted = new ArrayList<>();
     }
 
     public String getFullName() {
@@ -31,20 +25,30 @@ public class Student implements Entity, Comparable<Student>{
         return id;
     }
 
+    @Override
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public int getSubjectsAmount() {
-        return subjects_enlisted.size();
+        return subjectsEnlisted.size();
     }
 
     public void addSubject(String subject) {
-        if (subjects_enlisted == null) subjects_enlisted = new ArrayList<>();
-        if (!subjects_enlisted.contains(subject)) {
-            subjects_enlisted.add(subject);
+        if (!subjectsEnlisted.contains(subject)) {
+            subjectsEnlisted.add(subject);
         }
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(fullName);
+    public String toString() {
+        return "\nStudent Name: " + fullName + "\nStudent Email: " + studentEmail;
+    }
+
+    @Override
+    public int compareTo(Student o) {
+        if (fullName == null) return -1;
+        return this.fullName.compareTo(o.fullName);
     }
 
     @Override
@@ -56,23 +60,7 @@ public class Student implements Entity, Comparable<Student>{
     }
 
     @Override
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    @Override
-    public String toString() {
-        return "STUDENT{" +
-                "fullName='" + fullName + '\'' +
-                ", student_Email='" + student_Email + '\'' +
-                ", subjects_enlisted=" + subjects_enlisted +
-                ", id=" + id +
-                '}';
-    }
-
-    @Override
-    public int compareTo(Student o) {
-        if (FullName == null) return -1;
-        return this.FullName.compareTo(o.FullName);
+    public int hashCode() {
+        return Objects.hash(fullName);
     }
 }

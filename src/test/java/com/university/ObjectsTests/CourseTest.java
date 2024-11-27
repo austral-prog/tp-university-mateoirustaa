@@ -17,7 +17,7 @@ public class CourseTest {
     @Test
     public void testAddEvaluation() {
         Course course = new Course("Mathematics");
-        Written writtenExam = new Written("Jane Doe", "Mathematics", "Midterm", "Algebra", 8.0);
+        Written writtenExam = new Written("Jane Doe", "Mathematics", "Midterm", "Algebra");
         course.getEvaluations().add(writtenExam);
         assertTrue(course.getEvaluations().contains(writtenExam));
     }

@@ -1,7 +1,5 @@
 package com.university.Objects;
 
-import com.university.CLI.Entity;
-
 public abstract class Evaluation implements Entity {
 
     private int id;
@@ -11,12 +9,11 @@ public abstract class Evaluation implements Entity {
     private String exerciseName;
     public double grade;
 
-    public Evaluation(String student, String subject, String evaluationName, String exerciseName, double grade) {
+    public Evaluation(String student, String subject, String evaluationName, String exerciseName) {
         this.student = student;
         this.subject = subject;
         this.evaluationName = evaluationName;
         this.exerciseName = exerciseName;
-        this.grade = grade;
     }
 
     public String getStudent() {
@@ -29,10 +26,6 @@ public abstract class Evaluation implements Entity {
 
     public String getEvaluationName() {
         return evaluationName;
-    }
-
-    public String getExerciseName() {
-        return exerciseName;
     }
 
     public double getGrade() {
@@ -55,11 +48,6 @@ public abstract class Evaluation implements Entity {
 
     @Override
     public String toString() {
-        return "Evaluation{id=" + id +
-                ", student='" + student + '\'' +
-                ", subject='" + subject + '\'' +
-                ", evaluationName='" + evaluationName + '\'' +
-                ", exerciseName='" + exerciseName + '\'' +
-                ", grade=" + grade + '}';
+        return "Evaluation ID: " + id + "\nStudent: " + student + "\nSubject: " + subject + "\nEvaluation Name: " + evaluationName + "\nExcercise Name: " + exerciseName + "\nGrade:" + grade;
     }
 }

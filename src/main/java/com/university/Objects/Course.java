@@ -1,7 +1,5 @@
 package com.university.Objects;
 
-import com.university.CLI.Entity;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -25,7 +23,13 @@ public class Course implements Entity {
         return evaluaciones;
     }
 
-    @Override
+    public void addEvaluation(String classroom) {
+        if (!this.evaluaciones.contains(evaluaciones)) {
+            this.evaluaciones.add((Evaluation) evaluaciones);
+        }
+    }
+
+        @Override
     public int getId() {
         return id;
     }
@@ -50,6 +54,7 @@ public class Course implements Entity {
 
     @Override
     public String toString() {
-        return "COURSE{id=" + id + ", nombre='" + nombre + "'}";
+
+        return "Course ID: " + id + ", \nCourse Name: " + nombre;
     }
 }
