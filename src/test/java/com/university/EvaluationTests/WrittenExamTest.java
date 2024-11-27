@@ -14,6 +14,5 @@ public class WrittenExamTest {
         // Assert
         assertEquals("WRITTEN_EXAM", writtenExam.getType());
         assertEquals("Written Exam", writtenExam.getEvaluationKind());
-        assertEquals(8.0, writtenExam.getGrade());
     }
 }

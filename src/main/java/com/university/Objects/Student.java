@@ -13,7 +13,6 @@ public class Student implements Entity, Comparable<Student> {
     public Student(String fullName, String studentEmail) {
         this.fullName = fullName;
         this.studentEmail = studentEmail;
-        this.id = id;
         this.subjectsEnlisted = new ArrayList<>();
     }
 
