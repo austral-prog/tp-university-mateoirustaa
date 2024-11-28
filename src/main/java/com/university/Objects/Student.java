@@ -15,6 +15,7 @@ public class Student implements Entity, Comparable<Student> {
         this.studentEmail = studentEmail;
         this.subjectsEnlisted = new ArrayList<>();
     }
+    public Student() {}
 
     public String getFullName() {
         return fullName;

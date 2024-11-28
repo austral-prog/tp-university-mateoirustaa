@@ -71,12 +71,11 @@ class CRUDRepositoryTest {
 
             // Create an entity
             Entity testEntity = createTestEntity(crudRepository);
-            testEntity.setId(1);
             assertNotNull(testEntity, "Created entity should not be null");
             crudRepository.create(testEntity);
+
             // Read the entity (assuming an ID of 1 for simplicity)
             Object readEntity = crudRepository.read(1);
-
             assertNotNull(readEntity, "Entity should be found");
             assertEquals(testEntity.toString(), readEntity.toString(), "Read entity should match created entity");
 
@@ -91,7 +90,7 @@ class CRUDRepositoryTest {
             try {
                 Object deletedEntity = crudRepository.read(1);
                 fail( "My method didn't throw when I expected it to" );
-            } catch (RuntimeException e) {
+            } catch (EntityNotFoundException e) {
 
             }
 

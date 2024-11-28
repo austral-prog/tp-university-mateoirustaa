@@ -3,6 +3,7 @@ package com.university.CLI.Repositories;
 import com.university.CLI.CRUDRepository;
 import com.university.Objects.Student;
 import com.university.CLI.Exceptions.NullEntityException;
+import com.university.CLI.Exceptions.EntityNotFoundException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +21,11 @@ public class StudentRepo implements CRUDRepository<Student> {
 
     @Override
     public Student read(int id) {
-        return students.get(id);
+        Student student = students.get(id);
+        if (student == null) {
+            throw new EntityNotFoundException("Student with ID " + id + " not found.");
+        }
+        return student;
     }
 
     @Override
